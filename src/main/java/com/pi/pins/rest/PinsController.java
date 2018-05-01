@@ -20,22 +20,28 @@ public class PinsController
 		this.pinsService = pinsService;
 	}
 
-	@GetMapping("/{pinNumber}")
+	@GetMapping("/{pinNumber}/activate")
 	public String activate(@PathVariable("pinNumber") int pinNumber)
 	{
 		if (!validPinNumber(pinNumber))
 			throw new BadRequestException("Invalid pin");
 
-
 		pinsService.turnHigh(pinNumber);
 		return "Ok";
 	}
 
+	@GetMapping("/{pinNumber}/deactivate")
+	public String deactivate(@PathVariable("pinNumber") int pinNumber)
+	{
+		if (!validPinNumber(pinNumber))
+			throw new BadRequestException("Invalid pin");
+
+		pinsService.turnLow(pinNumber);
+		return "Ok";
+	}
 
 	private boolean validPinNumber(int pinNumber)
 	{
 		return pinNumber >= 0 && pinNumber <= 27;
 	}
-
-
 }

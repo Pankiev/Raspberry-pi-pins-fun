@@ -39,7 +39,6 @@ class PinsManager
 		GpioPinDigitalOutput pin = pins.computeIfAbsent(pinNumber, q -> preparePin(pinDefinition));
 		if (!pin.isState(PinState.LOW))
 			pin.low();
-
 	}
 
 	private Pin toPinDefinition(int pinNumber)

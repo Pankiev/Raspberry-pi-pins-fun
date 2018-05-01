@@ -16,7 +16,7 @@ public class PinsService
 {
 	private final Timer timer = new Timer();
 	private final PinsManager pinsManager;
-	private final Map<Integer, TimerTask> timerTasks = new ConcurrentHashMap<>();
+	private final Map<Integer, TimerTask> highPinsTimerTasks = new ConcurrentHashMap<>();
 
 	@Autowired
 	public PinsService(PinsManager pinsManager)
@@ -27,13 +27,21 @@ public class PinsService
 	public void turnHigh(int pinNumber)
 	{
 		pinsManager.turnHigh(pinNumber);
-		TimerTask oldTimerTask = timerTasks.remove(pinNumber);
+		TimerTask oldTimerTask = highPinsTimerTasks.remove(pinNumber);
 		if(oldTimerTask != null)
 			oldTimerTask.cancel();
 
 		TimerTask timerTask = createTurnLowTimerTask(pinNumber);
-		timerTasks.put(pinNumber, timerTask);
+		highPinsTimerTasks.put(pinNumber, timerTask);
 		timer.schedule(timerTask, 1000);
+	}
+
+	public void turnLow(int pinNumber)
+	{
+		pinsManager.turnLow(pinNumber);
+		TimerTask oldTimerTask = highPinsTimerTasks.remove(pinNumber);
+		if(oldTimerTask != null)
+			oldTimerTask.cancel();
 	}
 
 	private TimerTask createTurnLowTimerTask(int pinNumber)
@@ -45,7 +53,7 @@ public class PinsService
 			public void run()
 			{
 				runnable.run();
-				timerTasks.remove(pinNumber);
+				highPinsTimerTasks.remove(pinNumber);
 			}
 		};
 	}
