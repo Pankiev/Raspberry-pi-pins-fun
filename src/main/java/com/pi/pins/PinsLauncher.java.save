@@ -15,7 +15,7 @@ public class PinsLauncher
 		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08, "MyLED", PinState.HIGH);
 
 		// set shutdown state for this pi
-		pin.setShutdownOptions(false, PinState.LOW, PinPullResistance.PULL_UP, PinMode.DIGITAL_OUTPUT);
+		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "MyLED", PinState.HIGH);
 
 		System.out.println("--> GPIO state should be: ON");
 
