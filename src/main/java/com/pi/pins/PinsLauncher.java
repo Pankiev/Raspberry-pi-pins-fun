@@ -4,7 +4,7 @@ import com.pi4j.io.gpio.*;
 
 public class PinsLauncher
 {
-	public static void main(String[] args) throws InterruptedException
+	public static void main2(String[] args) throws InterruptedException
 	{
 		System.out.println("<--Pi4J--> GPIO Control Example ... started.");
 

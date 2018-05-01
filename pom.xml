@@ -7,6 +7,15 @@
     <groupId>raspberry-pi-pins</groupId>
     <artifactId>raspberry-pi-pins</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>raspberry-pi-pins</name>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.1.RELEASE</version>
+        <relativePath/>
+    </parent>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -16,16 +25,28 @@
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.pi.pins.PinsLauncher</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <requiresUnpack>
+                        <dependency>
+                            <groupId>com.pi4j</groupId>
+                            <artifactId>pi4j-core</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.pi4j</groupId>
+                            <artifactId>pi4j-gpio-extension</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.pi4j</groupId>
+                            <artifactId>pi4j-device</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.pi4j</groupId>
+                            <artifactId>pi4j-native</artifactId>
+                        </dependency>
+                    </requiresUnpack>
+                    <mainClass>com.pi.pins.SpringBootStarter</mainClass>
                 </configuration>
             </plugin>
         </plugins>
@@ -73,7 +94,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.0.1.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+
         </dependency>
 
     </dependencies>
