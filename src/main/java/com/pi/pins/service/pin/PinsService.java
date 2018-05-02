@@ -17,6 +17,7 @@ public class PinsService
 	private final Timer timer = new Timer();
 	private final PinsManager pinsManager;
 	private final Map<Integer, TimerTask> highPinsTimerTasks = new ConcurrentHashMap<>();
+	private final Map<Integer, Object> locks = new ConcurrentHashMap<>();
 
 	@Autowired
 	public PinsService(PinsManager pinsManager)
@@ -26,22 +27,30 @@ public class PinsService
 
 	public void turnHigh(int pinNumber)
 	{
-		TimerTask oldTimerTask = highPinsTimerTasks.remove(pinNumber);
-		if(oldTimerTask != null)
-			oldTimerTask.cancel();
+		Object lock = locks.computeIfAbsent(pinNumber, pin -> new Object());
+		synchronized (lock)
+		{
+			pinsManager.turnHigh(pinNumber);
+			TimerTask oldTimerTask = highPinsTimerTasks.remove(pinNumber);
+			if(oldTimerTask != null)
+				oldTimerTask.cancel();
 
-		TimerTask timerTask = createTurnLowTimerTask(pinNumber);
-		highPinsTimerTasks.put(pinNumber, timerTask);
-		pinsManager.turnHigh(pinNumber);
-		timer.schedule(timerTask, 1000);
+			TimerTask timerTask = createTurnLowTimerTask(pinNumber);
+			highPinsTimerTasks.put(pinNumber, timerTask);
+			timer.schedule(timerTask, 1000);
+		}
 	}
 
 	public void turnLow(int pinNumber)
 	{
-		pinsManager.turnLow(pinNumber);
-		TimerTask oldTimerTask = highPinsTimerTasks.remove(pinNumber);
-		if(oldTimerTask != null)
-			oldTimerTask.cancel();
+		Object lock = locks.computeIfAbsent(pinNumber, pin -> new Object());
+		synchronized (lock)
+		{
+			pinsManager.turnLow(pinNumber);
+			TimerTask oldTimerTask = highPinsTimerTasks.remove(pinNumber);
+			if(oldTimerTask != null)
+				oldTimerTask.cancel();
+		}
 	}
 
 	private TimerTask createTurnLowTimerTask(int pinNumber)
@@ -52,8 +61,12 @@ public class PinsService
 			@Override
 			public void run()
 			{
-				runnable.run();
-				highPinsTimerTasks.remove(pinNumber);
+				Object lock = locks.computeIfAbsent(pinNumber, pin -> new Object());
+				synchronized (lock)
+				{
+					runnable.run();
+					highPinsTimerTasks.remove(pinNumber)
+				}
 			}
 		};
 	}
