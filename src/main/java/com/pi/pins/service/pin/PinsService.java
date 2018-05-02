@@ -65,7 +65,7 @@ public class PinsService
 				synchronized (lock)
 				{
 					runnable.run();
-					highPinsTimerTasks.remove(pinNumber)
+					highPinsTimerTasks.remove(pinNumber);
 				}
 			}
 		};
