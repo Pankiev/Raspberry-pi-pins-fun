@@ -1,4 +1,4 @@
-package com.pi.pins.service;
+package com.pi.pins.service.pin;
 
 import com.pi4j.io.gpio.*;
 import org.apache.commons.logging.Log;

@@ -1,7 +1,7 @@
 package com.pi.pins.rest;
 
 import com.pi.pins.rest.exceptions.BadRequestException;
-import com.pi.pins.service.PinsService;
+import com.pi.pins.service.pin.PinsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
