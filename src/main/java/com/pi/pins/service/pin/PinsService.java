@@ -26,7 +26,6 @@ public class PinsService
 
 	public void turnHigh(int pinNumber)
 	{
-		pinsManager.turnHigh(pinNumber);
 		TimerTask oldTimerTask = highPinsTimerTasks.remove(pinNumber);
 		if(oldTimerTask != null)
 			oldTimerTask.cancel();
@@ -34,6 +33,7 @@ public class PinsService
 		TimerTask timerTask = createTurnLowTimerTask(pinNumber);
 		highPinsTimerTasks.put(pinNumber, timerTask);
 		timer.schedule(timerTask, 1000);
+		pinsManager.turnHigh(pinNumber);
 	}
 
 	public void turnLow(int pinNumber)
