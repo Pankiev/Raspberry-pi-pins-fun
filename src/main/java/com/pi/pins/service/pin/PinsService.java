@@ -1,4 +1,4 @@
-package com.pi.pins.service;
+package com.pi.pins.service.pin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
