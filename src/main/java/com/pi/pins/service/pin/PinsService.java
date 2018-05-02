@@ -32,8 +32,8 @@ public class PinsService
 
 		TimerTask timerTask = createTurnLowTimerTask(pinNumber);
 		highPinsTimerTasks.put(pinNumber, timerTask);
-		timer.schedule(timerTask, 1000);
 		pinsManager.turnHigh(pinNumber);
+		timer.schedule(timerTask, 1000);
 	}
 
 	public void turnLow(int pinNumber)
