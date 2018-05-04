@@ -18,31 +18,31 @@ public class CarEnginesProvider
 
 	@Bean
 	public Engine upperLeftEngine() {
-		return new Engine(pinsService, 8, 6);
+		return new Engine(pinsService, 7, 0);
 	}
 
 	@Bean
 	public Engine middleLeftEngine() {
-		return new Engine(pinsService, 5, 6);
+		return new Engine(pinsService, 3, 13);
 	}
 
 	@Bean
 	public Engine bottomLeftEngine() {
-		return new Engine(pinsService, 5, 6);
+		return new Engine(pinsService, 14, 21);
 	}
 
 	@Bean
 	public Engine upperRightEngine() {
-		return new Engine(pinsService, 5, 6);
+		return new Engine(pinsService, 15, 1);
 	}
 
 	@Bean
 	public Engine middleRightEngine() {
-		return new Engine(pinsService, 5, 6);
+		return new Engine(pinsService, 4, 6);
 	}
 
 	@Bean
 	public Engine bottomRightEngine() {
-		return new Engine(pinsService, 5, 6);
+		return new Engine(pinsService, 10, 11);
 	}
 }
