@@ -13,12 +13,6 @@ import java.util.stream.Stream;
 @Service
 public class Car
 {
-	private final Engine upperLeftEngine;
-	private final Engine middleLeftEngine;
-	private final Engine bottomLeftEngine;
-	private final Engine upperRightEngine;
-	private final Engine middleRightEngine;
-	private final Engine bottomRightEngine;
 	private final Collection<Engine> allEngines;
 	private final Collection<Engine> leftEngines;
 	private final Collection<Engine> rightEngines;
@@ -31,15 +25,9 @@ public class Car
 			@Qualifier("middleRightEngine") Engine middleRightEngine,
 			@Qualifier("bottomRightEngine") Engine bottomRightEngine)
 	{
-		this.upperLeftEngine = upperLeftEngine;
-		this.middleLeftEngine = middleLeftEngine;
-		this.bottomLeftEngine = bottomLeftEngine;
-		this.upperRightEngine = upperRightEngine;
-		this.middleRightEngine = middleRightEngine;
-		this.bottomRightEngine = bottomRightEngine;
 		leftEngines = Collections.unmodifiableCollection(Stream.of(upperLeftEngine, middleLeftEngine, bottomLeftEngine)
 				.collect(Collectors.toList()));
-		rightEngines = Collections.unmodifiableCollection(Stream.of(upperRightEngine, upperRightEngine, upperRightEngine)
+		rightEngines = Collections.unmodifiableCollection(Stream.of(upperRightEngine, middleRightEngine, bottomRightEngine)
 				.collect(Collectors.toList()));
 		allEngines = Collections.unmodifiableCollection(Stream.concat(leftEngines.stream(), rightEngines.stream())
 				.collect(Collectors.toList()));
