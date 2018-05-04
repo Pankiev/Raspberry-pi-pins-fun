@@ -30,6 +30,6 @@ public class Engine
 	public void loose()
 	{
 		pinsService.turnLow(rightControlPin);
-		pinsService.turnHigh(leftControlPin);
+		pinsService.turnLow(leftControlPin);
 	}
 }
