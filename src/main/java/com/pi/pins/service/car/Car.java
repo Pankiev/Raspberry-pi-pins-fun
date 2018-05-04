@@ -1,10 +1,14 @@
 package com.pi.pins.service.car;
 
 import com.pi.pins.service.engine.Engine;
+import com.sun.javafx.UnmodifiableArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -16,9 +20,9 @@ public class Car
 	private final Engine upperRightEngine;
 	private final Engine middleRightEngine;
 	private final Engine bottomRightEngine;
-	private final Stream<Engine> allEngines;
-	private final Stream<Engine> leftEngines;
-	private final Stream<Engine> rightEngines;
+	private final Collection<Engine> allEngines;
+	private final Collection<Engine> leftEngines;
+	private final Collection<Engine> rightEngines;
 
 	@Autowired
 	public Car(@Qualifier("upperLeftEngine") Engine upperLeftEngine,
@@ -34,9 +38,12 @@ public class Car
 		this.upperRightEngine = upperRightEngine;
 		this.middleRightEngine = middleRightEngine;
 		this.bottomRightEngine = bottomRightEngine;
-		leftEngines = Stream.of(upperLeftEngine, middleLeftEngine, bottomLeftEngine);
-		rightEngines = Stream.of(upperRightEngine, upperRightEngine, upperRightEngine);
-		allEngines = Stream.concat(leftEngines, rightEngines);
+		leftEngines = Collections.unmodifiableCollection(Stream.of(upperLeftEngine, middleLeftEngine, bottomLeftEngine)
+				.collect(Collectors.toList()));
+		rightEngines = Collections.unmodifiableCollection(Stream.of(upperRightEngine, upperRightEngine, upperRightEngine)
+				.collect(Collectors.toList()));
+		allEngines = Collections.unmodifiableCollection(Stream.concat(leftEngines.stream(), rightEngines.stream())
+			.collect(Collectors.toList()));
 	}
 
 	public void moveForward()
