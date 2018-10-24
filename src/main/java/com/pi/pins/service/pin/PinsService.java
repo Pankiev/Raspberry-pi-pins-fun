@@ -5,6 +5,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,8 +17,8 @@ public class PinsService
 {
 	private final Timer timer = new Timer();
 	private final PinsManager pinsManager;
-	private final Map<Integer, TimerTask> highPinsTimerTasks = new ConcurrentHashMap<>();
-	private final Map<Integer, Object> locks = new ConcurrentHashMap<>();
+	private final Map<Integer, TimerTask> highPinsTimerTasks = new HashMap<>();
+	private static final Map<Integer, Object> locks = new ConcurrentHashMap<>();
 
 	@Autowired
 	public PinsService(PinsManager pinsManager)
@@ -32,7 +33,7 @@ public class PinsService
 		{
 			pinsManager.turnHigh(pinNumber);
 			TimerTask oldTimerTask = highPinsTimerTasks.remove(pinNumber);
-			if(oldTimerTask != null)
+			if (oldTimerTask != null)
 				oldTimerTask.cancel();
 
 			TimerTask timerTask = createTurnLowTimerTask(pinNumber);
@@ -48,7 +49,7 @@ public class PinsService
 		{
 			pinsManager.turnLow(pinNumber);
 			TimerTask oldTimerTask = highPinsTimerTasks.remove(pinNumber);
-			if(oldTimerTask != null)
+			if (oldTimerTask != null)
 				oldTimerTask.cancel();
 		}
 	}

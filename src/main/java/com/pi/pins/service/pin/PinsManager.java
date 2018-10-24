@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +22,6 @@ class PinsManager
 	private final GpioController gpioController = GpioFactory.getInstance();
 	private final Map<Integer, GpioPinDigitalOutput> pins = new ConcurrentHashMap<>();
 
-	@Async
 	void turnHigh(int pinNumber)
 	{
 		logger.info("Turning pin " + pinNumber + " high");
@@ -31,7 +31,6 @@ class PinsManager
 			pin.high();
 	}
 
-	@Async
 	void turnLow(int pinNumber)
 	{
 		logger.info("Turning pin " + pinNumber + " low");
