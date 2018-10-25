@@ -3,14 +3,17 @@ package com.pi.pins.service.car;
 import com.pi.pins.service.engine.Engine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Service
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class Car
 {
 	private final Collection<Engine> allEngines;
@@ -33,28 +36,28 @@ public class Car
 				.collect(Collectors.toList()));
 	}
 
-	public void moveForward()
+	public synchronized void moveForward()
 	{
 		allEngines.forEach(Engine::startForward);
 	}
 
-	public void moveBackward()
+	public synchronized void moveBackward()
 	{
 		allEngines.forEach(Engine::startBackward);
 	}
 
-	public void loose()
+	public synchronized void loose()
 	{
 		allEngines.forEach(Engine::loose);
 	}
 
-	public void turnLeft()
+	public synchronized void turnLeft()
 	{
 		leftEngines.forEach(Engine::startBackward);
 		rightEngines.forEach(Engine::startForward);
 	}
 
-	public void turnRight()
+	public synchronized void turnRight()
 	{
 		leftEngines.forEach(Engine::startForward);
 		rightEngines.forEach(Engine::startBackward);

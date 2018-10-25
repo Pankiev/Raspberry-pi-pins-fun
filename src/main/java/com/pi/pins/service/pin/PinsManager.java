@@ -19,12 +19,22 @@ class PinsManager
 {
 	private final static Log logger = LogFactory.getLog(PinsManager.class);
 
-	private final GpioController gpioController = GpioFactory.getInstance();
+	private final GpioController gpioController;
 	private final Map<Integer, GpioPinDigitalOutput> pins = new ConcurrentHashMap<>();
+
+	public PinsManager()
+	{
+		this(GpioFactory.getInstance());
+	}
+
+	public PinsManager(GpioController gpioController)
+	{
+		this.gpioController = gpioController;
+	}
 
 	void turnHigh(int pinNumber)
 	{
-		logger.info("Turning pin " + pinNumber + " high");
+		logger.info("Turning com.pi.pins.service.pin " + pinNumber + " high");
 		Pin pinDefinition = toPinDefinition(pinNumber);
 		GpioPinDigitalOutput pin = pins.computeIfAbsent(pinNumber, q -> preparePin(pinDefinition));
 		if (!pin.isState(PinState.HIGH))
@@ -33,7 +43,7 @@ class PinsManager
 
 	void turnLow(int pinNumber)
 	{
-		logger.info("Turning pin " + pinNumber + " low");
+		logger.info("Turning com.pi.pins.service.pin " + pinNumber + " low");
 		Pin pinDefinition = toPinDefinition(pinNumber);
 		GpioPinDigitalOutput pin = pins.computeIfAbsent(pinNumber, q -> preparePin(pinDefinition));
 		if (!pin.isState(PinState.LOW))

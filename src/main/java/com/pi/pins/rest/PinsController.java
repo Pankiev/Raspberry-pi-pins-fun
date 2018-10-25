@@ -24,7 +24,7 @@ public class PinsController
 	public String activate(@PathVariable("pinNumber") int pinNumber)
 	{
 		if (!validPinNumber(pinNumber))
-			throw new BadRequestException("Invalid pin");
+			throw new BadRequestException("Invalid com.pi.pins.service.pin");
 
 		pinsService.turnHigh(pinNumber);
 		return "Ok";
@@ -34,7 +34,7 @@ public class PinsController
 	public String deactivate(@PathVariable("pinNumber") int pinNumber)
 	{
 		if (!validPinNumber(pinNumber))
-			throw new BadRequestException("Invalid pin");
+			throw new BadRequestException("Invalid com.pi.pins.service.pin");
 
 		pinsService.turnLow(pinNumber);
 		return "Ok";

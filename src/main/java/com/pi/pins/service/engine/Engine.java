@@ -1,6 +1,7 @@
 package com.pi.pins.service.engine;
 
 import com.pi.pins.service.pin.PinsService;
+import org.springframework.scheduling.annotation.Async;
 
 public class Engine
 {
@@ -15,19 +16,22 @@ public class Engine
 		this.rightControlPin = rightControlPin;
 	}
 
-	public void startForward()
+	@Async
+	public synchronized void startForward()
 	{
 		pinsService.turnLow(leftControlPin);
 		pinsService.turnHigh(rightControlPin);
 	}
 
-	public void startBackward()
+	@Async
+	public synchronized void startBackward()
 	{
 		pinsService.turnLow(rightControlPin);
 		pinsService.turnHigh(leftControlPin);
 	}
 
-	public void loose()
+	@Async
+	public synchronized void loose()
 	{
 		pinsService.turnLow(rightControlPin);
 		pinsService.turnLow(leftControlPin);
